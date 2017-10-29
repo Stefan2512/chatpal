@@ -1,8 +1,9 @@
 function onLoad() {
-    document.getElementsByClassName("fa-send")[0].addEventListener("click", composeMessage.bind(this, "receiver", "this"))
+    document.getElementsByClassName("fa-send")[0].addEventListener("click", requestBotMessage);
+    document.getElementsByClassName("fa-send")[0].addEventListener("click", composeMessage.bind(null, "sender", null))
 }
 
-function composeMessage(actor, text) {
+function composeMessage(actor, receiverText) {
     var conversation = document.getElementById("conversation");
 
     var messageBody = document.createElement("DIV");
@@ -22,6 +23,13 @@ function composeMessage(actor, text) {
 
     var actorText = document.createElement("DIV");
     actorText.className = "message-text";
+
+    var text = receiverText;
+    console.log('receiver text', receiverText);
+    if (!receiverText) {
+        text = document.getElementById("comment").value;
+    }
+
     actorText.innerText = text;
 
     var time = document.createElement("SPAN");
@@ -33,6 +41,21 @@ function composeMessage(actor, text) {
     actorElement.appendChild(actorSubElement);
     messageBody.appendChild(actorElement);
     conversation.appendChild(messageBody);
+
+    document.getElementById('conversation').lastChild.scrollIntoView(true);
+}
+
+function requestBotMessage() {
+    var text = document.getElementById("comment").value;
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:4419/message",
+        dataType: "json",
+        data: JSON.stringify({"MessageID": "1231231", "Text": text})
+    }).done(function (response) {
+        composeMessage("receiver", response.Text)
+    })
 }
 
 document.addEventListener("DOMContentLoaded", onLoad, false);
