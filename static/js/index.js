@@ -1,6 +1,24 @@
 function onLoad() {
-    document.getElementsByClassName("fa-send")[0].addEventListener("click", requestBotMessage);
-    document.getElementsByClassName("fa-send")[0].addEventListener("click", composeMessage.bind(null, "sender", null))
+    document.getElementsByClassName("fa-send")[0].addEventListener("click", handleClick);
+    document.getElementById("comment").addEventListener("keypress", handleEnter)
+}
+
+function handleEnter(e) {
+    if (e.key === "Enter") {
+        sendMessage()
+    }
+}
+
+function handleClick(e) {
+    sendMessage()
+}
+
+function sendMessage() {
+    var comment = document.getElementById("comment");
+    composeMessage("sender", comment.value);
+    comment.value = "";
+    comment.focus();
+    requestBotMessage();
 }
 
 function composeMessage(actor, receiverText) {
@@ -25,7 +43,6 @@ function composeMessage(actor, receiverText) {
     actorText.className = "message-text";
 
     var text = receiverText;
-    console.log('receiver text', receiverText);
     if (!receiverText) {
         text = document.getElementById("comment").value;
     }
@@ -46,15 +63,16 @@ function composeMessage(actor, receiverText) {
 }
 
 function requestBotMessage() {
-    var text = document.getElementById("comment").value;
+    var comment = document.getElementById("comment");
 
     $.ajax({
         type: "POST",
         url: "http://localhost:4419/message",
         dataType: "json",
-        data: JSON.stringify({"MessageID": "1231231", "Text": text})
+        data: JSON.stringify({"MessageID": "1231231", "Text": comment.value})
     }).done(function (response) {
-        composeMessage("receiver", response.Text)
+        composeMessage("receiver", response.Text);
+        comment.value = ""
     })
 }
 
