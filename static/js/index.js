@@ -16,9 +16,9 @@ function handleClick(e) {
 function sendMessage() {
     var comment = document.getElementById("comment");
     composeMessage("sender", comment.value);
-    comment.value = "";
-    comment.focus();
     requestBotMessage();
+    comment.value = "";
+    comment.focus()
 }
 
 function composeMessage(actor, receiverText) {
