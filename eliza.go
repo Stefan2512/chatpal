@@ -21,12 +21,12 @@ var ps = map[string][]string{
 
 // try to parse with every key in the eliza dictionary,
 // if so happens, pick a random predefined message in the dictionary
-func parseMessageAndGetContext(s string) string {
+func ParseMessage(s string) string {
 	for k := range ps {
 		re := regexp.MustCompile(k)
 		findings := re.FindStringSubmatch(s)
 		if findings != nil {
-			randomMessageIndex := randomizeMessage(len(ps[k]))
+			randomMessageIndex := RandomizeMessage(len(ps[k]))
 			interpolatedAnswer := fmt.Sprintf(ps[k][randomMessageIndex], findings[1])
 			return interpolatedAnswer
 		}
@@ -34,11 +34,11 @@ func parseMessageAndGetContext(s string) string {
 
 	// if no other keys are found, fallback to some default statements
 	fallBackKey := "fallbackStatements"
-	randomFallbackMessageIndex := randomizeMessage(len(ps[fallBackKey]))
+	randomFallbackMessageIndex := RandomizeMessage(len(ps[fallBackKey]))
 	return ps[fallBackKey][randomFallbackMessageIndex]
 }
 
-func randomizeMessage(n int) int {
+func RandomizeMessage(n int) int {
 	// appropriately seed the pseudo-random generator
 	// so that at every message to get a different response
 	rand.Seed(time.Now().UTC().UnixNano())

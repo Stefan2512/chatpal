@@ -33,7 +33,7 @@ func decodeIncomingMessage(r *http.Request) Message {
 }
 
 func buildOutgoingMessage(m Message) []byte {
-	botResponse := parseMessageAndGetContext(m.Text)
+	botResponse := ParseMessage(m.Text)
 	data := Message{"13291231", botResponse}
 	jData, err := json.Marshal(data)
 
