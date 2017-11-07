@@ -13,7 +13,7 @@ and a simple web server that serves the static files and handles message request
 
 [Features](#features)
 
-[External Resources](#external-resources)
+[External Resources and Thanks](#external-resources)
 
 ### Download and Run
 
@@ -27,17 +27,19 @@ $ git clone https://github.com/Stefan2512/chatpal.git
 ```
 
 2. Go to the downloaded folder
+
 ```bash
 $ cd ~/go/src/chatpal
 ```
 
-Build the project (please make sure you are in the right directory as said in step 2) 
+3. Build the project (please make sure you are in the right directory as said in step 2) 
 
 ```bash
 $ go build
 ```
 
-Run the project
+4. Run the project
+
 ```bash
 $ ./chatpal
 ```
@@ -67,4 +69,8 @@ will be generated.
 #### UI
 Communicating with Chat Pal is done via a web interface. The UI is a chat
 that contains the list of messages send to and received from the Go server.
+The page layout was [source]($external-resources) inspired, but the Javascript logic was implemented by me
 
+### External Resources
+
+UI - HTML and CSS snippet - [https://bootsnipp.com/snippets/N6BgR](https://bootsnipp.com/snippets/N6BgR) - snippet made by [harunpehlivan](https://bootsnipp.com/harunpehlivan)
