@@ -51,7 +51,8 @@ function composeMessage(actor, receiverText) {
 
     var time = document.createElement("SPAN");
     time.className = "message-time pull-right";
-    time.innerText = "Sun";
+
+    time.innerText = formatMessageTime();
 
     actorSubElement.appendChild(actorText);
     actorSubElement.appendChild(time);
@@ -69,7 +70,7 @@ function requestBotMessage() {
         type: "POST",
         url: "http://localhost:4419/message",
         dataType: "json",
-        data: JSON.stringify({"MessageID": "1231231", "Text": comment.value})
+        data: JSON.stringify({"Text": comment.value})
     }).done(function (response) {
         composeMessage("receiver", response.Text);
         comment.value = ""
@@ -77,3 +78,16 @@ function requestBotMessage() {
 }
 
 document.addEventListener("DOMContentLoaded", onLoad, false);
+
+// --------------------------- helpers -------------------------------------
+
+function formatMessageTime() {
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    var now = new Date();
+    var day = days[now.getDay()];
+    var hours = now.getHours();
+    var minutes = now.getMinutes();
+
+    return day + " " + hours + ":" + minutes;
+}
