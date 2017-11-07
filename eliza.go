@@ -95,6 +95,9 @@ var ps = map[string][]string{
 	},
 }
 
+// conversation starters
+// used when fall backing to a statement so that the conversation doesn't end there
+
 // try to parse with every key in the eliza dictionary,
 // if so happens, pick a random predefined message in the dictionary
 func ParseMessage(s string) string {
@@ -129,6 +132,7 @@ func truncatingSprintf(str string, args ...interface{}) (string, error) {
 	return fmt.Sprintf(str, args[:n]...), nil
 }
 
+// used to get a message at a certain key
 func randomizeMessage(n int) int {
 	// appropriately seed the pseudo-random generator
 	// so that at every message to get a different response

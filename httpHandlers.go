@@ -9,6 +9,7 @@ type Message struct {
 	Text      string
 }
 
+// handle ingoing and outgoing messages with this handler
 func MessageHandler(w http.ResponseWriter, r *http.Request) {
 	income := decodeIncomingMessage(r)
 	outgoing := buildOutgoingMessage(income)
@@ -18,6 +19,7 @@ func MessageHandler(w http.ResponseWriter, r *http.Request) {
 
 // ------------------------------ helpers functions ----------------------------------
 
+// decode the message send to the server as JSON
 func decodeIncomingMessage(r *http.Request) Message {
 	decoder := json.NewDecoder(r.Body)
 	var income Message
@@ -31,6 +33,7 @@ func decodeIncomingMessage(r *http.Request) Message {
 	return Message{income.Text}
 }
 
+// build the message as JSON to be send back to the client
 func buildOutgoingMessage(m Message) []byte {
 	botResponse := ParseMessage(m.Text)
 	data := Message{botResponse}
