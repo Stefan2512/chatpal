@@ -10,7 +10,37 @@ import (
 )
 
 // possible statements
+// if any of the keys are found, a random response message will be picked up
 var ps = map[string][]string{
+	"^?(.*)\\?$": {
+		"I really don't get the question. What should I understand from \"%s\"?",
+		"Well that's an interesting question. Hmmmm...",
+		"We both know you already have the anwser to that",
+		"I will think of that. In the meantime, is there any way I could be of help?",
+		"I never thought of that to be honest",
+		"Your questions fascinate me",
+		"Interesting question",
+	},
+	"^(Hi|Hello) ?(.*)": {
+		"Hello to you too buddy!",
+		"Well hello there :D",
+		"Hi! How are you?",
+		"Hey! Do you want to talk about anything?",
+	},
+	"My ?(.*)": {
+		"Your %s?",
+		"What about your %s?",
+	},
+	"I am ?(.*)": {
+		"Are you really %s?",
+		"How do you feel about being %s?",
+	},
+	"Would you ?(.*)": {
+		"Since you are so polite..",
+		"Anything for you, buddy!",
+		"I would do only the nicest things, of course",
+		"How would I do that?",
+	},
 	"I need ?(.*)": {
 		"Why do you need %s?",
 		"Do you really need %s?",
@@ -21,7 +51,7 @@ var ps = map[string][]string{
 	},
 	"I want ?(.*)": {
 		"How do you feel about wanting something like %s?",
-		"I would recommend to get %s only if you really need it",
+		"Hmm... if you really need it",
 		"I would suggest to let it go...",
 	},
 	"going to ?(.*)": {
@@ -56,8 +86,9 @@ var ps = map[string][]string{
 	"Do they really ?(.*)": {
 		"Suddenly you don't believe me?",
 	},
+	// if none of the above keys were matched, a random response message from this entry key will pe picked up
 	"fallbackStatements": {
-		"Don't know what to say about this",
+		"I'm listening, what about that?",
 		"I was thinking about that too",
 		"Please tell me more",
 		"I feel like this is going nowhere, what do you think about strawberries?",
@@ -71,6 +102,7 @@ func ParseMessage(s string) string {
 		// compile regex but ignore case-sensitive
 		re := regexp.MustCompile("(?i)" + k)
 		findings := re.FindStringSubmatch(s)
+
 		if findings != nil {
 			randomMessageIndex := RandomizeMessage(len(ps[k]))
 			answer, err := TruncatingSprintf(ps[k][randomMessageIndex], findings[1])
