@@ -104,8 +104,8 @@ func ParseMessage(s string) string {
 		findings := re.FindStringSubmatch(s)
 
 		if findings != nil {
-			randomMessageIndex := RandomizeMessage(len(ps[k]))
-			answer, err := TruncatingSprintf(ps[k][randomMessageIndex], findings[1])
+			randomMessageIndex := randomizeMessage(len(ps[k]))
+			answer, err := truncatingSprintf(ps[k][randomMessageIndex], findings[1])
 			if err != nil {
 				print(err)
 			}
@@ -115,13 +115,13 @@ func ParseMessage(s string) string {
 
 	// if no other keys are found, fallback to some default statements
 	fallBackKey := "fallbackStatements"
-	randomFallbackMessageIndex := RandomizeMessage(len(ps[fallBackKey]))
+	randomFallbackMessageIndex := randomizeMessage(len(ps[fallBackKey]))
 	return ps[fallBackKey][randomFallbackMessageIndex]
 }
 
 // we only need to interpolate the first string we catch
 // because we may catch more strings in the regex, it's possible to pass too many values to Sprintf
-func TruncatingSprintf(str string, args ...interface{}) (string, error) {
+func truncatingSprintf(str string, args ...interface{}) (string, error) {
 	n := strings.Count(str, "%s")
 	if n > len(args) {
 		return "", errors.New("Unexpected string:" + str)
@@ -129,7 +129,7 @@ func TruncatingSprintf(str string, args ...interface{}) (string, error) {
 	return fmt.Sprintf(str, args[:n]...), nil
 }
 
-func RandomizeMessage(n int) int {
+func randomizeMessage(n int) int {
 	// appropriately seed the pseudo-random generator
 	// so that at every message to get a different response
 	rand.Seed(time.Now().UTC().UnixNano())
