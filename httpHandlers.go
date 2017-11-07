@@ -6,7 +6,6 @@ import (
 )
 
 type Message struct {
-	MessageID string
 	Text      string
 }
 
@@ -29,12 +28,12 @@ func decodeIncomingMessage(r *http.Request) Message {
 	}
 
 	defer r.Body.Close()
-	return Message{income.MessageID, income.Text}
+	return Message{income.Text}
 }
 
 func buildOutgoingMessage(m Message) []byte {
 	botResponse := ParseMessage(m.Text)
-	data := Message{"13291231", botResponse}
+	data := Message{botResponse}
 	jData, err := json.Marshal(data)
 
 	if err != nil {
