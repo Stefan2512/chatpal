@@ -13,7 +13,7 @@ and a simple web server that serves the static files and handles message request
 
 [Features](#features)
 
-[External Resources and Thanks](#external-resources)
+[External Resources](#external-resources)
 
 ### Download and Run
 
@@ -69,7 +69,14 @@ will be generated.
 #### UI
 Communicating with Chat Pal is done via a web interface. The UI is a chat
 that contains the list of messages send to and received from the Go server.
-The page layout was [source]($external-resources) inspired, but the Javascript logic was implemented by me
+
+#### Implementation notes
+
+* The ability of __Chat Pal__  to respond accordingly is based on parsing a few key words. If any of these keywords match,
+a list of possible statements is associated with that key. In the end, one possible statement
+will be picked at random.
+* The page layout was [source](#external-resources) inspired, but the Javascript code and logic was implemented by me
+* The Go code contains only built-in libraries
 
 ### External Resources
 
