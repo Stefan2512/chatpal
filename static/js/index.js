@@ -1,3 +1,4 @@
+// add listeners when the app is loading
 function onLoad() {
     document.getElementsByClassName("fa-send")[0].addEventListener("click", handleClick);
     document.getElementById("comment").addEventListener("keypress", handleEnter)
@@ -13,6 +14,7 @@ function handleClick(e) {
     sendMessage()
 }
 
+// get the text value from the ui and make request for the response message
 function sendMessage() {
     var comment = document.getElementById("comment");
     composeMessage("sender", comment.value);
@@ -21,6 +23,7 @@ function sendMessage() {
     comment.focus()
 }
 
+// compose and append messages to be displayed on page
 function composeMessage(actor, receiverText) {
     var conversation = document.getElementById("conversation");
 
@@ -42,12 +45,7 @@ function composeMessage(actor, receiverText) {
     var actorText = document.createElement("DIV");
     actorText.className = "message-text";
 
-    var text = receiverText;
-    if (!receiverText) {
-        text = document.getElementById("comment").value;
-    }
-
-    actorText.innerText = text;
+    actorText.innerText = receiverText;
 
     var time = document.createElement("SPAN");
     time.className = "message-time pull-right";
@@ -63,24 +61,25 @@ function composeMessage(actor, receiverText) {
     document.getElementById('conversation').lastChild.scrollIntoView(true);
 }
 
+// ajax request for message
 function requestBotMessage() {
-    var comment = document.getElementById("comment");
-
     $.ajax({
         type: "POST",
         url: "http://localhost:4419/message",
         dataType: "json",
         data: JSON.stringify({"Text": comment.value})
     }).done(function (response) {
+        // after the response message from server is received, compose and render it on page
         composeMessage("receiver", response.Text);
+
+        var comment = document.getElementById("comment");
         comment.value = ""
     })
 }
 
 document.addEventListener("DOMContentLoaded", onLoad, false);
 
-// --------------------------- helpers -------------------------------------
-
+// format the time to be displayed under the comment texts
 function formatMessageTime() {
     var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
