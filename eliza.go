@@ -21,7 +21,7 @@ var ps = map[string][]string{
 		"Your questions fascinate me",
 		"Interesting question",
 	},
-	"^(Hi|Hello) ?(.*)": {
+	"^(Hi|Hello|Greetins) ?(.*)": {
 		"Hello to you too buddy!",
 		"Well hello there :D",
 		"Hi! How are you?",
@@ -30,6 +30,7 @@ var ps = map[string][]string{
 	"My ?(.*)": {
 		"Your %s?",
 		"What about your %s?",
+		"Your %s is suddenly catching my attention",
 	},
 	"I am ?(.*)": {
 		"Are you really %s?",
@@ -89,14 +90,11 @@ var ps = map[string][]string{
 	// if none of the above keys were matched, a random response message from this entry key will pe picked up
 	"fallbackStatements": {
 		"I'm listening, what about that?",
-		"I was thinking about that too",
+		"I was thinking about that too. Tell me more",
 		"Please tell me more",
 		"I feel like this is going nowhere, what do you think about strawberries?",
 	},
 }
-
-// conversation starters
-// used when fall backing to a statement so that the conversation doesn't end there
 
 // try to parse with every key in the eliza dictionary,
 // if so happens, pick a random predefined message in the dictionary
